@@ -24,4 +24,10 @@ router.get('/:user', function (req, res) {
         .then((user) => res.status(200).json({ user: user }))
 });
 
+// DELETE user by username
+router.delete('/username/:user', function (req, res) {
+    User.findOneAndDelete({ username: req.params.user })
+    .then((user) => res.status(200).json({ user: user }));
+});
+
 module.exports = router;
