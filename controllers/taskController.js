@@ -28,4 +28,13 @@ router.delete('/task/:id', function (req, res) {
         .then(() => res.sendStatus(204));
 });
 
+// PATCH update task by id
+router.patch('/task/:id', function (req, res) {
+    const id = req.params.id;
+    const data = req.body;
+
+    Task.findByIdAndUpdate(id, data, { new: true })
+        .then((task) => res.status(200).json({ task: task }))
+});
+
 module.exports = router;
