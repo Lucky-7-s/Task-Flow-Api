@@ -17,4 +17,11 @@ router.post('/', function (req, res) {
     });
 });
 
+// GET user by username
+router.get('/:user', function (req, res) {
+    User.find({ username: req.params.user })
+        .populate('tasks', ['task', 'status'])
+        .then((user) => res.status(200).json({ user: user }))
+});
+
 module.exports = router;
