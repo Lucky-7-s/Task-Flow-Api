@@ -20,4 +20,12 @@ router.post('/', function (req, res) {
         }));
 });
 
+// DELETE task by id
+router.delete('/task/:id', function (req, res) {
+    const id = req.params.id;
+
+    Task.findByIdAndDelete(id)
+        .then(() => res.sendStatus(204));
+});
+
 module.exports = router;
