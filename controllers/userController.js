@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/userSchema');
+const Task = require('../models/taskSchema');
 
 const router = express.Router();
 
@@ -23,17 +24,37 @@ router.post('/', function (req, res) {
 
    User.create(data).then((user) => {
        res.json(user);
+       console.log(user)
    });
 });
 
+// POST - add a task to task array
+router.post('/:user/task', function (req, res) {
+    Task.create(req.body)
+        .then((task) => {
+            res.json(task)
+            console.log(task)
+        })
+});
+
 // GET user and tasks
-router.get('/:id/tasks', (req, res) => {
-    User.find({ _id: req.params.id })
+// router.get('/:id/tasks', (req, res) => {
+//     User.find({ _id: req.params.id })
+//         .populate('tasks')
+//         .then((users) => {
+//             res.json(users);
+//         });
+// });
+
+router.get('/:user/tasks', (req, res) => {
+    User.find({ username: req.params.user })
         .populate('tasks')
         .then((users) => {
             res.json(users);
         });
 });
+
+
 
 // // GET all users
 // router.get('/', function (req, res) {
@@ -86,41 +107,22 @@ router.get('/:id/tasks', (req, res) => {
 //         .then((user) => res.status(200).json({ user: user }));
 // });
 
-// router.patch('/:userId/tasks/:taskId', (req, res) => {
-//     const taskId = req.params.taskId;
-//     const userId = req.params.userId;
-//     const status = req.body.status;
+router.patch('/:id/tasks/:taskId', (req, res) => {
+    const taskId = req.params.taskId;
+    const userId = req.params.id;
 
-//     Task.findByIdAndUpdate(taskId, {
-//         user: userId,
-//         status: status
-//     }, { new: true }
-//     ).then(() => {
-//         User.findByIdAndUpdate(userId, {
-//             $push: { tasks: taskId }
-//         }, {
-//             new: true
-//         })
-//             .populate('tasks', ['task', 'status'])
-//             .then((user) => res.status(200).json({ user: user }))
-//     });
-// });
-
-// router.post('/:username', function (req, res) {
-//     const data = req.body;
-//     const status = req.body.status;
-
-//     Task.create(data)
-//         .then((user) => res.status(201).json({
-//             user: user,
-//             status: status
-//         })).then(() => {
-//             User.findOneAndUpdate(req.params.username, {
-//                 $push: { tasks: data }
-//             }, { new: true })
-//                 .populate('tasks', ['task', 'status'])
-//                 .then((user) => res.status(200).json({ user: user }))
-//         })
-// });
+    Task.findByIdAndUpdate(taskId, {
+        user: userId,
+    }, { new: true }
+    ).then(() => {
+        User.findByIdAndUpdate(userId, {
+            $push: { tasks: taskId }
+        }, {
+            new: true
+        })
+            .populate('tasks', ['task', 'status'])
+            .then((user) => res.status(200).json({ user: user }))
+    });
+});
 
 module.exports = router;

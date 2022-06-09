@@ -1,5 +1,6 @@
 const express = require('express');
 const Task = require('../models/taskSchema');
+const User = require('../models/userSchema');
 
 const router = express.Router();
 
@@ -16,8 +17,10 @@ router.post('/', function (req, res) {
     Task.create(req.body)
         .then((task) => {
             res.json(task)
-        });
+            console.log(task)
+        })
 });
+
 
 // DELETE task by id
 router.delete('/:id', function (req, res) {
@@ -27,13 +30,6 @@ router.delete('/:id', function (req, res) {
         });
 });
 
-// GET all tasks
-// router.get('/', function (req, res) {
-//     Task.find()
-//         .populate('user', ['username'])
-//         .then((tasks) => res.status(200).json({ tasks: tasks }))
-// });
-
 // // POST create new task
 // router.post('/user/:username', function (req, res) {
 //     const data = req.body;
@@ -42,14 +38,6 @@ router.delete('/:id', function (req, res) {
 //         .then((user) => res.status(201).json({
 //             user: user
 //         }));
-// });
-
-// // DELETE task by id
-// router.delete('/:id', function (req, res) {
-//     const id = req.params.id;
-
-//     Task.findByIdAndDelete(id)
-//         .then(() => res.sendStatus(204));
 // });
 
 // // PATCH update task by id

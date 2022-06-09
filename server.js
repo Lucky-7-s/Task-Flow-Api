@@ -19,8 +19,8 @@ app.use(logger('dev'));
 app.use(cors());
 
 // app routes
-app.use('/user', userController);
-app.use('/tasks', taskController);
+app.use('/user/', userController);
+app.use('/tasks/', taskController);
 
 // start app on port
 app.set('port', process.env.PORT || 8080);
