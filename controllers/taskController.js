@@ -31,22 +31,22 @@ router.delete('/:id', function (req, res) {
 });
 
 // // POST create new task
-// router.post('/user/:username', function (req, res) {
-//     const data = req.body;
+router.post('/user/:username', function (req, res) {
+    const data = req.body;
 
-//     Task.create(data)
-//         .then((user) => res.status(201).json({
-//             user: user
-//         }));
-// });
+    Task.create(data)
+        .then((user) => res.status(201).json({
+            user: user
+        }));
+});
 
 // // PATCH update task by id
-// router.patch('/task/:id', function (req, res) {
-//     const id = req.params.id;
-//     const data = req.body;
+router.patch('/task/:id', function (req, res) {
+    const id = req.params.id;
+    const data = req.body;
 
-//     Task.findByIdAndUpdate(id, data, { new: true })
-//         .then((task) => res.status(200).json({ task: task }))
-// });
+    Task.findByIdAndUpdate(id, data, { new: true })
+        .then((task) => res.status(200).json({ task: task }))
+});
 
 module.exports = router;
